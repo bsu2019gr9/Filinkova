@@ -9,10 +9,10 @@ void* makeArrOfInt(int*& arr, int N) {
 	arr = new (nothrow) int[N];
 	if (!arr) exit(404);}
 
-/*  int* makeArrOfInt(int N) {
+int* makeArrOfInt(int N) {
 	int* arr = nullptr;
 	arr = new int[N];
-	return arr;}*/
+	return arr;}
 
 void freeMemory(int*& arr) {
 	delete[] arr;  arr = nullptr; }
