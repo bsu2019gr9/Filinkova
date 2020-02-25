@@ -9,7 +9,7 @@ void* makeArrOfInt(int*& arr, int N) {
 	arr = new (nothrow) int[N];
 	if (!arr) exit(404);}
 
-/*  int* makeArrOfInt(const int N) {
+/*  int* makeArrOfInt(int N) {
 	int* arr = nullptr;
 	arr = new int[N];
 	return arr;}*/
