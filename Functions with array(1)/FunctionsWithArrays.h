@@ -1,6 +1,6 @@
 #pragma once
 void* makeArrOfInt(int*&, int);
-//int* makeArrOfInt(const int N);
+//int* makeArrOfInt(int N);
 void freeMemory(int*&);
 void initRandomArray(int*, int*, const int, const int);
 void initArray(int*, int*, const int);
