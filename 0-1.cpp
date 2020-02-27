@@ -43,7 +43,7 @@ int main()
 		cout << "x=";
 		cout << x;
 		cout.width(13);
-		cout << Log(x, eps) + Exp(2 * x, eps);;
+		cout << Log(x, eps) + Exp(2 * x, eps);
 		cout.width(13);
 		cout << log(x + 1) + exp(x) * exp(x)<<"\n";
 
