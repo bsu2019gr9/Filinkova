@@ -9,33 +9,25 @@ using namespace std;
 double Exp(double x, double eps)
 {
 	double sum = 1, term = 1;
-	for (int i = 1; fabs(term) > eps; ++i)
+	int i = 1;
+	while( fabs(term) > eps)
 	{
 		term = term * x / i;
 		sum += term;
+		i++;
 	}
 	return sum;
 }
-double Logarithm(double x, double eps)
+double Log(double x, double eps)
 {
-	double sum = 0, term =-1; 
-	for (int i = 1; (fabs(term)/i) >eps; ++i)
+	double sum = 0, term =-1;
+	int i = 1;
+	while ((fabs(term)/i) >eps)
 	{
 		term = -term * x;
 		sum += term/i;
+		i++;
 	}
-	return sum;
-}
-double Sum2_OfTheLogAndExp(double x, double eps)
-{
-	double sum = 0;
-	sum = log(x + 1) + exp(x)*exp(x);
-	return sum;
-}
-double Sum1_OfTheLogAndExp(double x, double eps)
-{
-	double sum = 0;
-	sum = Logarithm(x, eps) + Exp(2*x, eps);
 	return sum;
 }
 
@@ -51,9 +43,9 @@ int main()
 		cout << "x=";
 		cout << x;
 		cout.width(13);
-		cout << Sum1_OfTheLogAndExp(x, eps);
+		cout << Log(x, eps) + Exp(2 * x, eps);;
 		cout.width(13);
-		cout << Sum2_OfTheLogAndExp(x, eps)<<"\n";
+		cout << log(x + 1) + exp(x) * exp(x)<<"\n";
 
 	}
 	return 0;
