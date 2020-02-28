@@ -65,15 +65,14 @@ void permuteRows_And_IncreaseElementsOfCal(int** arr, int N, int M)
 }
 
 int main() {
-	int N=0,M=0;
+	int N,M;
 	cout << "Enter the number of rows and cols" << '\n';
 	cin >> N >> M;
-	int** arr = makeArrOfInt(N, M);
-	randInitArray(arr, N, M);
-	printArray(arr, N, M); cout << '\n';
-	permuteRows_And_IncreaseElementsOfCal(arr, N, M);
-	printArray(arr, N, M);
-	freeMemory(arr, N, M);
-	system("pause");
+	int** A = makeArrOfInt(N, M);
+	randInitArray(A, N, M);
+	printArray(A, N, M); cout << '\n';
+	permuteRows_And_IncreaseElementsOfCal(A, N, M);
+	printArray(A, N, M);
+	freeMemory(A, N, M);
 	return 0;
 }
