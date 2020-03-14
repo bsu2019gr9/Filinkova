@@ -37,7 +37,12 @@ void freeMemory(int**& arr, int N, int M) {
 	arr = nullptr;
 }
 
-void swapStrings(int** arr,int j) {
+void swap(int& a, int& b) {
+	int buf;
+	buf = a; a = b; b = buf;
+}
+
+void swapRows(int** arr,int j) {
 	int* tmp;
 	tmp = arr[j];
 	arr[j] = arr[j + 1];
@@ -54,10 +59,8 @@ void permuteRows_And_IncreaseElementsOfCal(int** arr, int N, int M)
 	for (size_t i = 0; i < N; i++) {
 		for (size_t j = 0; j < N - i - 1; j++) {
 			if (*(p + j) > * (p + j + 1)) {
-				int buf = *(p + j);
-				*(p + j) = *(p + j + 1);
-				*(p + j + 1) = buf;
-				swapStrings(arr, j);
+				swap(*(p + j), *(p + j + 1));
+				swapRows(arr, j);
 			}
 		}
 	}
@@ -74,5 +77,6 @@ int main() {
 	permuteRows_And_IncreaseElementsOfCal(A, N, M);
 	printArray(A, N, M);
 	freeMemory(A, N, M);
+	system("pause");
 	return 0;
 }
