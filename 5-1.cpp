@@ -27,7 +27,7 @@ int main()
 {
 	Rectangle rectangle1;
 	Rectangle rectangle2;
-	Rectangle rectangle3;
+	Rectangle* rectangle3 = new (nothrow) Rectangle[10];
 	double a, b;
 	cin >> rectangle1;
 	a = rectangle1.length();//длина прямоугольника
@@ -38,15 +38,13 @@ int main()
 	cout << "The height of the first rectangle : " << b << '\n';
 	cout << "Area of the first rectangle: " << rectangle1.Area(a, b) << '\n';//площадь прямоуг.
 	cout << "Perimeter of the first rectangle: " << rectangle1.Perimeter(a, b) << '\n';//периметр прямоуг.
-	//Rectangle* rectangle4 = new Rectangle(rectangle1);
-	//Rectangle* rect5 = &rectangle2;
-	//cout << rect5;
 	rectangle2 = rectangle1;//присваиваем второму прямоугольнику координаты первого
 	cout << "The second rectangle:\n";
 	cout << rectangle2;
-	rectangle3 = rectangle1 + rectangle2;//складываются координаты 2-ух прямоугольников
+	*rectangle3 =rectangle1 + rectangle2;//складываются координаты 2-ух прямоугольников
 	cout << "The third rectangle:\n";
-	cout << rectangle3;
+	cout << *rectangle3;
+	delete[] rectangle3;
 	system("pause");
 }
 void Rectangle::operator=(const Rectangle& other)
