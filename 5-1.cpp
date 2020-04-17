@@ -4,60 +4,80 @@ using namespace std;
 
 class Rectangle {
 private:
-	double x1, x2, y1, y2;
+
+	double x1, y1, x2, y2;//(x1,y1)-левая нижняя координата, (x2,y2)- правая верхняя координата
+	void CheckForExistence(double x1, double x2, double y1, double y2);//проверка на существование прямоугольника
+
 public:
-	Rectangle();
-	~Rectangle();
 
-	Rectangle(double a, double b, double c, double d);
-	void operator=(const Rectangle& other);
-	Rectangle operator+(const Rectangle& other);
-	Rectangle operator-(const Rectangle& other);
-	Rectangle(const Rectangle& other);
-	friend void operator<<(ostream& output, const Rectangle& tmp);
-	friend void operator>>(istream& input, Rectangle& tmp);
-	double length();
-	double height();
-	double Perimeter(double& a, double& b);
-	double Area(double& a, double& b);
+	Rectangle();// конструктор без параметров
+	Rectangle(const Rectangle& other);// конструктор копирования
+	Rectangle(double a, double b, double c, double d);// конструктор с параметрами 
+	~Rectangle();// деструктор
 
+	void operator=(const Rectangle& other);//оператор присваивания
+	Rectangle operator+(const Rectangle&) const; //сложение двух дробей
+	Rectangle operator-(const Rectangle&) const;// вычитание 2-ух координат(соотвественно x1-x2,y1-y2)
+
+	friend ostream& operator<<(ostream& output, const Rectangle& tmp);//вывод
+	friend istream& operator>>(istream& input, Rectangle& tmp);//ввод
+	
+	void operator+=(const Rectangle& other);
+	void operator-=(const Rectangle& other);
+
+	bool operator==(const Rectangle&) const;
+	bool operator!=(const Rectangle&) const;
+
+	double length() const;//длина прямоуг
+	double height() const;//высота прямоуг
+
+	double Perimeter() ;//периметр
+	double Area() ;//площадь
+	void printRectangle() ;//печать прямоугольника
+	
 };
+
 
 int main()
 {
 	Rectangle rectangle1;
 	Rectangle rectangle2;
+
 	Rectangle* rectangle3 = new (nothrow) Rectangle[10];
-	double a, b;
+	Rectangle* rectangle4 = new Rectangle(1, 2,4,6 );
 	cin >> rectangle1;
-	a = rectangle1.length();//длина прямоугольника
-	b = rectangle1.height();//высота прямоугольника
-	cout << "The first rectangle:\n";
-	cout << rectangle1;
-	cout << "The length of the first rectangle : " << a << '\n';
-	cout << "The height of the first rectangle : " << b << '\n';
-	cout << "Area of the first rectangle: " << rectangle1.Area(a, b) << '\n';//площадь прямоуг.
-	cout << "Perimeter of the first rectangle: " << rectangle1.Perimeter(a, b) << '\n';//периметр прямоуг.
+	cout << "The first rectangle:\n"; cout << rectangle1;
+	cout << "The length of the first rectangle : " << rectangle1.length() << '\n';//длина прямоуг
+	cout << "The height of the first rectangle : " << rectangle1.height() << '\n';//высота прямоуг
+	cout << "Area of the first rectangle: " << rectangle1.Area() << '\n';//площадь прямоуг.
+	cout << "Perimeter of the first rectangle: " << rectangle1.Perimeter() << '\n';//периметр прямоуг.
+	rectangle1.printRectangle();//печать прямоугольника
+	
 	rectangle2 = rectangle1;//присваиваем второму прямоугольнику координаты первого
+
 	cout << "The second rectangle:\n";
 	cout << rectangle2;
-	*rectangle3 =rectangle1 + rectangle2;//складываются координаты 2-ух прямоугольников
+	*rectangle3 = rectangle1 + rectangle2;//складываются координаты 2-ух прямоугольников
 	cout << "The third rectangle:\n";
 	cout << *rectangle3;
+	//cout << fff(rectangle1);
+	//cout << ggg(rectangle4);
+	Rectangle rectangle5(1, 0, 0, 0);
+	//cout << ttt(rectangle5);
 	delete[] rectangle3;
 	system("pause");
 }
 void Rectangle::operator=(const Rectangle& other)
 {
 	this->x1 = other.x1;
-	this->x2 = other.x2;
 	this->y1 = other.y1;
+	this->x2 = other.x2;
 	this->y2 = other.y2;
-}
+};
 Rectangle::Rectangle() :
 	x1(0),
-	x2(0),
-	y1(1),
+	y1(0),
+	x2(1),
 	y2(1)
 {
 	//cout << "no params constructor working \n";
@@ -68,8 +88,8 @@ Rectangle::~Rectangle() {// cout << "destructor working for...\n";
 
 Rectangle::Rectangle(const Rectangle& other) :
 	x1(other.x1),
-	x2(other.x2),
 	y1(other.y1),
+	x2(other.x2),
 	y2(other.y2)
 {
 	//cout << "copy constructor working for (" << this->x1 << ';' << this->x2 << ';' << this->y1 << ';' << this->y2 << ")\n";
@@ -80,56 +100,90 @@ Rectangle::Rectangle(const Rectangle& other) :
 };*/
 
 
-Rectangle::Rectangle(double a, double b, double c, double d) :
-	x1(a),
-	x2(b),
-	y1(c),
-	y2(d)
+void Rectangle::CheckForExistence(double x1, double x2, double y1, double y2) //проверка на существование прямоугольника
 {
-	//cout << "constructor working for (" << this->x1 << ';' << this->x2 << ';' << this->y1 << ';' << this->y2 << ")\n";
+	if (x1 >= x2 || y1 >= y2) throw "Bad arguments";
+};
+Rectangle::Rectangle(double a, double b, double c, double d) : 
+	        x1(a),
+		y1(b),
+		x2(c),
+		y2(d)	
+{
+	CheckForExistence(x1,x2,y1,y2);
 };
 
-void operator>>(istream& input, Rectangle& tmp)
+istream& operator>>(istream& input, Rectangle& tmp)
 {
 	cout << "Enter the first point(x1,y1):\n";
 	input >> tmp.x1 >> tmp.y1;
 	cout << "Enter the diagonal point(according to the first)(x2,y2):\n";
 	input >> tmp.x2 >> tmp.y2;
-	while ((tmp.x2 == tmp.x1) || (tmp.y1 == tmp.y2)) {
-		cout << "Enter the diagonal point one more time(x2 and y2 aren't equal to x1 and y2!!)\n";
-		input >> tmp.x2 >> tmp.y2;
-	}
-}
-void operator<<(ostream& output, const Rectangle& tmp)
+
+	CheckForExistence(tmp.x1, tmp.x2, tmp.y1, tmp.y2);
+	return input;
+};
+ostream& operator<<(ostream & output, const Rectangle & tmp)
 {
-	output << "Your points:" << "A(" << tmp.x1 << "," << tmp.y1 << ")" << ";" << "C(" << tmp.x2 << "," << tmp.y2 << ")" << ";" << '\n';
+	 output << "Your points:" << "A(" << tmp.x1 << "," << tmp.y1 << ")" << ";" << "C(" << tmp.x2 << "," << tmp.y2 << ")" << ";" << '\n';
+	return output;
 };
 
-Rectangle Rectangle::operator+(const Rectangle& other) {
-	Rectangle tmp;
-	tmp.x1 = this->x1 + other.x1;
-	tmp.x2 = this->x2 + other.x2;
-	tmp.y1 = this->y1 + other.y1;
-	tmp.y2 = this->y2 + other.y2;
+Rectangle Rectangle::operator+(const Rectangle& other) const
+{
+	Rectangle tmp(this->x1 + other.x1, this->y1 + other.y1, this->x2 + other.x2, this->y2 + other.y2);
+	return tmp;
+
+};
+Rectangle Rectangle:: operator-(const Rectangle& other)  const
+{
+	Rectangle tmp(this->x1 - other.x1, this->y1 - other.y1, this->x2 - other.x2, this->y2 - other.y2);
 	return tmp;
 };
-Rectangle Rectangle:: operator-(const Rectangle& other) {
-	Rectangle tmp;
-	tmp.x1 = abs(this->x1 - other.x1);
-	tmp.x2 = abs(this->x2 - other.x2);
-	tmp.y1 = abs(this->y1 - other.y1);
-	tmp.y2 = abs(this->y2 - other.y2);
-	return tmp;
+double Rectangle::length() const {
+	return (x2 - x1);
 };
-double Rectangle::length() {
-	return (abs(x1 - x2));
-}
-double Rectangle::height() {
-	return (abs(y1 - y2));
-}
-double Rectangle::Perimeter(double& a, double& b) {
-	return (a + b) * 2;
-}
-double Rectangle::Area(double& a, double& b) {
-	return a * b;
-}
+double Rectangle::height() const {
+	return (y2 - y1);
+};
+double Rectangle::Perimeter() {
+	return (length() + height()) * 2;
+};
+double Rectangle::Area() {
+	return length() * height();
+};
+void Rectangle::printRectangle() {
+
+	for (int i = 1; i <= height(); i++)
+	{
+		for (int j = 1; j <= length(); j++)
+		{
+			cout << "*";
+		}
+		cout << '\n';
+	}
+};
+bool Rectangle::operator==(const Rectangle& other) const
+{
+	return ((length() == other.length()) && (height() == other.height()));
+};
+bool Rectangle::operator!=(const Rectangle& other) const
+{
+
+	return !(*this == other);
+};
+void Rectangle::operator+=(const Rectangle& other) {
+	*this = *this + other;
+};
+void Rectangle::operator-=(const Rectangle& other) {
+	*this = *this - other;
+};
+Rectangle fff(Rectangle rect) {
+	return rect;
+};
+Rectangle* ggg(Rectangle* rect) {
+	return rect;
+};
+Rectangle ttt(Rectangle& rect) {
+	return rect;
+};
