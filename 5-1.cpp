@@ -16,7 +16,8 @@ public:
 	~Rectangle();// деструктор
 
 	void operator=(const Rectangle& other);//оператор присваивания
-	Rectangle operator+(const Rectangle&) const; //сложение двух дробей
+	Rectangle operator*(const double n); //хотелось бы увидеть. Это по моему несложно (n>0)
+	Rectangle operator+(const Rectangle&) const; //сложение двух дробей ??????????
 	Rectangle operator-(const Rectangle&) const;// вычитание 2-ух координат(соотвественно x1-x2,y1-y2)
 
 	friend ostream& operator<<(ostream& output, const Rectangle& tmp);//вывод
@@ -96,7 +97,7 @@ Rectangle::Rectangle(const Rectangle& other) :
 };
 
 /*Rectangle::Rectangle(const Rectangle& other) {
-	*this = other;
+	*this = other;//так получится рекрсивный вызов!!!!
 };*/
 
 
@@ -117,7 +118,7 @@ istream& operator>>(istream& input, Rectangle& tmp)
 {
 	cout << "Enter the first point(x1,y1):\n";
 	input >> tmp.x1 >> tmp.y1;
-	cout << "Enter the diagonal point(according to the first)(x2,y2):\n";
+	cout << "Enter the diagonal point(according to the first)(x2,y2):\n";//не видно, что надо "выше и правее!!!"
 	input >> tmp.x2 >> tmp.y2;
 
 	CheckForExistence(tmp.x1, tmp.x2, tmp.y1, tmp.y2);
@@ -131,13 +132,13 @@ ostream& operator<<(ostream & output, const Rectangle & tmp)
 
 Rectangle Rectangle::operator+(const Rectangle& other) const
 {
-	Rectangle tmp(this->x1 + other.x1, this->y1 + other.y1, this->x2 + other.x2, this->y2 + other.y2);
+	Rectangle tmp(this->x1 + other.x1, this->y1 + other.y1, this->x2 + other.x2, this->y2 + other.y2);//а если получится 0 или неверный????
 	return tmp;
 
 };
 Rectangle Rectangle:: operator-(const Rectangle& other)  const
 {
-	Rectangle tmp(this->x1 - other.x1, this->y1 - other.y1, this->x2 - other.x2, this->y2 - other.y2);
+	Rectangle tmp(this->x1 - other.x1, this->y1 - other.y1, this->x2 - other.x2, this->y2 - other.y2);//а если получится 0 или неверный????
 	return tmp;
 };
 double Rectangle::length() const {
@@ -147,18 +148,18 @@ double Rectangle::height() const {
 	return (y2 - y1);
 };
 double Rectangle::Perimeter() {
-	return (length() + height()) * 2;
+	return (length() + height()) * 2;//слишком много вызовов, но можно и так.
 };
 double Rectangle::Area() {
 	return length() * height();
 };
-void Rectangle::printRectangle() {
+void Rectangle::printRectangle(const char c='*') {//в первом семестре делали так!!!!
 
 	for (int i = 1; i <= height(); i++)
 	{
 		for (int j = 1; j <= length(); j++)
 		{
-			cout << "*";
+			cout << c;
 		}
 		cout << '\n';
 	}
